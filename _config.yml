@@ -9,7 +9,7 @@ plugins:
 #-------------------------------
 # General Site Settings
 title: Charlie H. Kim
-description: "Hi I'm Charlie. My portfolio focuses on illustrative samples of interesting projects I've undertaken over the years. Please visit my GitHub & LinkedIn pages (or download my Resume) by using the links below!"
+description: "Hi I'm Charlie and am passionate about efficiently employing business intelligence/data science tools and techniques to produced real world value. My portfolio focuses on illustrative samples of interesting projects I've undertaken over the years. Please visit my GitHub & LinkedIn pages (or download my Resume) by using the links below!"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -17,7 +17,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # About Section
 subtitle: Data Science <span style="color:#f58506"> Portfolio </span>
 location: "Virginia, US"
-resume_url: /docs/Charlie Kim_CV_202511.docx
+resume_url: /docs/Charlie_Kim_CV_202511.docx
 avatar_image: /img/Charlie_Kim_photo_outdoor.JPG
 
 #-------------------------------
@@ -51,5 +51,6 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
 
 
