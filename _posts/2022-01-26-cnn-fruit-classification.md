@@ -305,7 +305,7 @@ The ModelCheckpoint callback that has been put in place means that we do not jus
 <br>
 #### Analysis Of Training Results
 
-As we saved our training process to the *history* object, we can now analyze the performance (Classification Accuracy, and Loss) of the network epoch by epoch.
+As we saved our training process to the *history* object, we can now analyze the performance (Classification Accuracy and Loss) of the network epoch by epoch.
 
 ```python
 
@@ -328,19 +328,19 @@ max(history.history['val_accuracy'])
 
 ```
 <br>
-The below image contains two plots, the first showing the epoch by epoch **Loss** for both the training set (blue) and the validation set (orange) & the second show the epoch by epoch **Classification Accuracy** again, for both the training set (blue) and the validation set (orange).
+The below image contains two plots, the first showing the epoch by epoch **Loss** for both the training set (blue) and the validation set (orange) and the second showing the epoch by epoch **Classification Accuracy** again, for both the training set (blue) and the validation set (orange).
 
 <br>
 ![alt text](/img/posts/cnn-baseline-accuracy-plot.png "CNN Baseline Accuracy Plot")
 
 <br>
-There are two key learnings from above plots. The first is that, with this baseline architecture & the parameters we set for training, we are reaching our best performance in around 10-20 epochs - after that, not much improvement is seen. This isn't to say that 50 epochs is wrong, especially if we change our network - but is interesting to note at this point.
+There are two key learnings from above plots. The first is that, with this baseline architecture and the parameters we set for training, we are reaching our best performance in around 10-20 epochs - after that, not much improvement is seen. This isn't to say that 50 epochs is wrong, especially if we change our network - but it is interesting to note at this point.
 
-The second thing to notice is *very important* and that is the significant gap between orange and blue lines on the plot, in other words between our validation performance and our training performance.
+The second thing to notice is *very important* and that is the significant gap between orange and blue lines on the plot - in other words, between our validation performance and our training performance.
 
-This gap is over-fitting.
+This gap indicates over-fitting.
 
-Focusing on the lower plot above (Classification Accuracy) - it appears that our network is learning the features of the training data *so well* that after about 20 or so epochs it is *perfectly* predicting those images - but on the validation set, it never passes approximately **83% Classification Accuracy**.
+Focusing on the lower plot above (Classification Accuracy) - it appears that our network is learning the features of the training data *so well* that after about 20 or so epochs it is *perfectly* predicting those images - but on the validation set, it never passes approximately **80% Classification Accuracy**.
 
 We do not want over-fitting! It means that we're risking our predictive performance on new data. The network is not learning to generalize, meaning that if something slightly different comes along then it's going to really, really struggle to predict well, or at least predict reliably!
 
@@ -351,7 +351,7 @@ We will look to address this with some clever concepts, and you will see those i
 
 Above, we assessed our models performance on both the training set and the validation set - both of which were being passed in during training.
 
-Here, we will get a view of how well our network performs when predict on data that was *no part* of the training process whatsoever - our test set.
+Here, we will get a view of how well our network performs when predicting on data that was *no part* of the training process whatsoever - i.e., our test set.
 
 A test set can be extremely useful when looking to assess many different iterations of a network we build. Where the validation set might be sent through the model in slightly different orders during training in order to assess the epoch by epoch performance, our test set is a *static set* of images. Because of this, it makes for a really good baseline for testing the first iteration of our network versus any subsequent versions that we create, perhaps after we refine the architecture, or add any other clever bits of logic that we think might help the network perform better in the real world.
 
@@ -425,7 +425,7 @@ for folder in folder_names:
         predicted_probabilities.append(predicted_probability)
         filenames.append(image)
         
-# create dataframe to analyse
+# create dataframe to analyze
 predictions_df = pd.DataFrame({"actual_label" : actual_labels,
                                "predicted_label" : predicted_labels,
                                "predicted_probability" : predicted_probabilities,
@@ -455,7 +455,7 @@ In our data we have:
 * Prediction Label: The predicted label for the image (from the network)
 * Predicted Probability: The network's perceived probability for the predicted label
 * Filename: The test set image on our local drive (for reference)
-* Correct: A flag showing whether the predicted label is the same as the actual label
+* Correct: A flag showing whether the predicted label is the same as the actual label (with 1 entered for a correct match)
 
 This dataset is extremely useful as we can not only calculate our classification accuracy, but we can also deep-dive into images where the network was struggling to predict and try to assess why - leading to us improving our network, and potentially our input data!
 
@@ -479,7 +479,7 @@ Our baseline network achieves a **75% Classification Accuracy** on the Test Set.
 
 Overall Classification Accuracy is very useful, but it can hide what is really going on with the network's predictions!
 
-As we saw above, our Classification Accuracy for the whole test set was 75%, but it might be that our network is predicting extremely well on apples, but struggling with Lemons as for some reason it is regularly confusing them with Oranges. A Confusion Matrix can help us uncover insights like this!
+As we saw above, our Classification Accuracy for the whole test set was 75%, but it might be that our network is predicting extremely well on Apples, but struggling with Lemons as for some reason it is regularly confusing them with Oranges. A Confusion Matrix can help us uncover insights like this!
 
 We can create a Confusion Matrix with the below code:
 
@@ -495,7 +495,7 @@ This results in the following output:
 
 ```
 
-actual_label     apple  avocado  banana  kiwi  lemon  orange
+   actual_label   apple  avocado  banana  kiwi  lemon  orange
 predicted_label                                             
 apple              0.8      0.0     0.0   0.1    0.0     0.1
 avocado            0.0      1.0     0.0   0.0    0.0     0.0
@@ -506,7 +506,7 @@ orange             0.0      0.0     0.0   0.1    0.0     0.8
 
 ```
 <br>
-Along the top are our *actual* classes and down the side are our *predicted* classes - so counting *down* the columns we can get the Classification Accuracy (%) for each class, and we can see where it is getting confused.
+Across the top are our *actual* classes and down the side are our *predicted* classes - so counting *down* the columns we can get the Classification Accuracy (%) for each class, and we can see where it is getting confused.
 
 So, while overall our test set accuracy was 75% - for each individual class we see:
 
@@ -519,7 +519,7 @@ So, while overall our test set accuracy was 75% - for each individual class we s
 
 This is very powerful - we now can see what exactly is driving our *overall* Classification Accuracy.
 
-The standout insight here is for Bananas - with a 20% Classification Accuracy, and even more interestingly we can see where it is getting confused. The network predicted 70% of Banana images to be of the class Lemon!
+The standout insight here is for Bananas - with a 20% Classification Accuracy, and even more interestingly, we can see where it is getting confused. The network predicted 70% of Banana images to be of the class Lemon!
 
 ___
 <br>
@@ -1365,5 +1365,6 @@ The proof of concept was successful, we have shown that we can get very accurate
 
 
 Transfer Learning has been a big success, and was the best performing network in terms of classification accuracy on the Test Set - however we still only trained for a small number of epochs so we can push this even further.  It would be worthwhile testing other available pre-trained networks such as ResNet, Inception, and the DenseNet networks.
+
 
 
