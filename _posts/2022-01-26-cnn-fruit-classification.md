@@ -7,7 +7,7 @@ tags: [Deep Learning, CNN, Data Science, Computer Vision, Python]
 
 In this project we build & optimize a Convolutional Neural Network to classify images of fruits, with the goal of helping a grocery retailer enhance & scale their sorting & delivery processes. 
 
-# Table of contents
+# Table of Contents
 
 - [00. Project Overview](#overview-main)
     - [Context](#overview-context)
@@ -267,7 +267,7 @@ _________________________________________________________________
 ```
 
 <br>
-#### Training The Network
+#### Training the Network
 
 With the pipeline and architecture in place, we are now ready to train the baseline network!
 
@@ -303,7 +303,7 @@ history = model.fit(x = training_set,
 The ModelCheckpoint callback that has been put in place means that we do not just save the *final* network at epoch 50, but instead we save the *best* network, in terms of validation set performance - from *any point* during training.  In other words, at the end of each of the 50 epochs, Keras will assess the performance on the validation set and if is has not seen any improvement in performance it will do nothing. If it does see an improvement however, it will update the network file that is saved on our hard-drive.
 
 <br>
-#### Analysis Of Training Results
+#### Analysis of Training Results
 
 As we saved our training process to the *history* object, we can now analyze the performance (Classification Accuracy and Loss) of the network epoch by epoch.
 
@@ -347,7 +347,7 @@ We do not want over-fitting! It means that we're risking our predictive performa
 We will look to address this with some clever concepts, and you will see those in the next sections.
 
 <br>
-#### Performance On The Test Set
+#### Performance on The Test Set
 
 Above, we assessed our models performance on both the training set and the validation set - both of which were being passed in during training.
 
@@ -508,7 +508,7 @@ orange             0.0      0.0     0.0   0.1    0.0     0.8
 <br>
 Across the top are our *actual* classes and down the side are our *predicted* classes - so counting *down* the columns we can get the Classification Accuracy (%) for each class, and we can see where it is getting confused.
 
-So, while overall our test set accuracy was 75% - for each individual class we see:
+So, while overall our test set accuracy was 75%, for each individual class we see:
 
 * Apple: 80%
 * Avocado: 100%
@@ -523,7 +523,7 @@ The standout insight here is for Bananas - with a 20% Classification Accuracy, a
 
 ___
 <br>
-# Tackling Overfitting With Dropout <a name="cnn-dropout"></a>
+# Tackling Overfitting with Dropout <a name="cnn-dropout"></a>
 
 <br>
 #### Dropout Overview
@@ -574,12 +574,12 @@ model.add(Activation('softmax'))
 ```
 
 <br>
-#### Training The Updated Network
+#### Training the Updated Network
 
 We run the exact same code to train this updated network as we did for the baseline network (50 epochs) - the only change is that we modify the filename for the saved network to ensure we have all network files for comparison.
 
 <br>
-#### Analysis Of Training Results
+#### Analysis of Training Results
 
 As we again saved our training process to the *history* object, we can now analyze and plot the performance (Classification Accuracy and Loss) of the updated network epoch by epoch.
 
@@ -596,7 +596,7 @@ Firstly, we can see a peak Classification Accuracy on the validation set of arou
 Secondly, and what we were really looking to see, is that gap between the Classification Accuracy on the training set and the validation set has been mostly eliminated. The two lines are trending up at more or less the same rate across all epochs of training - and the accuracy on the training set also never reaches 100% as it did before, meaning that we are indeed seeing this *generalization* that we want! The addition of Dropout does appear to have remedied the overfitting that we saw in the baseline network.
 
 <br>
-#### Performance On The Test Set
+#### Performance on the Test Set
 
 During training, we assessed our updated network's performance on both the training set and the validation set. Here, like we did for the baseline network, we will get a view of how well our network performs when predicting on data that was *no part* of the training process whatsoever - our test set.
 
@@ -631,7 +631,7 @@ orange             0.0      0.0     0.0   0.1    0.0     0.9
 <br>
 Along the top are our *actual* classes and down the side are our *predicted* classes - so counting *down* the columns we can get the Classification Accuracy (%) for each class, and we can see where it is getting confused.
 
-So, while overall our test set accuracy was 85% - for each individual class we see:
+So, while overall our test set accuracy was 85%, for each individual class we see:
 
 * Apple: 80%
 * Avocado: 100%
@@ -709,12 +709,12 @@ Again, it is important to note that these transformations are applied *only* to 
 Our network will be the same as the Baseline network.  We will not apply Dropout here to ensure we can understand the true impact of Image Augmentation for our task.
 
 <br>
-#### Training The Updated Network
+#### Training the Updated Network
 
 We run the exact same code to train this updated network as we did for the Baseline network (50 epochs) - the only change is that we modify the filename for the saved network to ensure we have all network files for comparison.
 
 <br>
-#### Analysis Of Training Results
+#### Analysis of Training Results
 
 As we again saved our training process to the *history* object, we can now analyze and plot the performance (Classification Accuracy and Loss) of the updated network epoch by epoch.
 
@@ -733,7 +733,7 @@ Secondly, and what we were again really looking to see, that gap between the Cla
 The reason for this is that the network is getting a slightly different version of each image each epoch during training, meaning that while it's learning features, it can't cling to a *single version* of those features!
 
 <br>
-#### Performance On The Test Set
+#### Performance on the Test Set
 
 During training, we assessed our updated network's performance on both the training and validation sets. Here, like we did for the Baseline and Dropout networks, we will get a view of how well our network performs when predicting on data that was *no part* of the training process whatsoever - our test set.
 
@@ -848,7 +848,7 @@ validation_set = validation_generator.flow_from_directory(directory = validation
 ```
 
 <br>
-#### Application Of Keras Tuner
+#### Application of Keras Tuner
 
 Here we specify what we want Keras Tuner to test and how we want it to test it!
 
@@ -856,9 +856,9 @@ We put our network architecture into a *function* with a single parameter called
 
 We then make use of several built-in bits of logic to specify what we want to test. In the code below we test for:
 
-* Convolutional Layer Count - Between 1 & 2
+* Convolutional Layer Count - Between 1 & 4
 * Convolutional Layer Filter Count - Between 32 & 256 (Step Size 32)
-* Dense Layer Count - Between 1 & 3
+* Dense Layer Count - Between 1 & 4
 * Dense Layer Neuron Count - Between 32 & 256 (Step Size 32)
 * Application Of Dropout - Yes or No
 * Optimizer - Adam or RMSProp
@@ -902,15 +902,15 @@ def build_model(hp):
 
 ```
 <br>
-Once we have the testing logic in place, we use want to put in place the specifications for the search!
+Once we have the testing logic in place, we want to put in place the specifications for the search!
 
 In the code below, we set parameters to:
 
 * Point to the network *function* with the testing logic (hypermodel)
-* Set the metric to optimize for (objective)
-* Set the number of random network configurations to test (max_trials)
-* Set the number of times to try each tested configuration (executions_per_trial)
-* Set the details for the output of logging and results
+* Set the metric to optimize for the objective function
+* Set the number of random network configurations to test a max # of trials
+* Set the number of times to try each tested configuration
+* Set the details for the output of logging results
 
 ```python
 
@@ -929,7 +929,7 @@ With the search parameters in place, we now want to put this into action.
 
 In the below code, we:
 
-* Specify the training & validation flows
+* Specify the training and validation flows
 * Specify the number of epochs for each tested configuration
 * Specify the batch size for training
 
@@ -943,12 +943,12 @@ tuner.search(x = training_set,
 
 ```
 <br>
-Depending on how many configurations are to be tested, how many epochs are required for each, and the speed of processing - this can take a long time, but the results will most definitely guide us towards a more optimal architecture!
+Depending on how many configurations are to be tested, how many epochs are required for each, and the speed of processing, this can take a long time, but the results will most definitely guide us toward a more optimal architecture!
 
 <br>
 #### Updated Network Architecture
 
-Based upon the tested network architectures, the best in terms of validation accuracy was one that contains **3 Convolutional Layers**. The first has **96 filters** and the subsequent two each **64 filters**.  Each of these layers have an accompanying MaxPooling Layer (this wasn't tested). The network then has **1 Dense (Fully Connected) Layer** following flattening with **160 neurons** with **Dropout applied** - followed by our output layer. The chosen optimizer was **Adam**.
+Based upon the tested network architectures, the best in terms of validation accuracy is one that contains **3 Convolutional Layers**. The first has **96 filters** and the subsequent two has **64 filters** each. Each of these three convolutional layers has an accompanying MaxPooling Layer (this wasn't tested). The network then has **1 Dense (Fully Connected) Layer** following flattening with **160 neurons** with **Dropout applied**, followed by our output layer. The chosen optimizer was **Adam**.
 
 ```python
 
@@ -983,7 +983,7 @@ model.compile(loss = 'categorical_crossentropy',
 
 ```
 <br>
-The below shows us more clearly our optimised architecture:
+The below table captures the details of our optimized architecture:
 
 ```
 _________________________________________________________________
@@ -1027,44 +1027,44 @@ _________________________________________________________________
 ```
 
 <br>
-Our optimised architecture has a total of 2.7 million parameters, a step up from 1.1 million in the baseline architecture.
+Our optimized architecture has a total of 2.7 million parameters, a step up from the 1.1 million in the Baseline architecture.
 
 <br>
-#### Training The Updated Network
+#### Training the Updated Network
 
-We run the exact same code to train this updated network as we did for the baseline network (50 epochs) - the only change is that we modify the filename for the saved network to ensure we have all network files for comparison.
+We run the exact same code to train this updated network as we did for the Baseline network (50 epochs) - the only change is that we modify the filename for the saved network to ensure we have all network files for comparison.
 
 <br>
-#### Analysis Of Training Results
+#### Analysis of Training Results
 
-As we again saved our training process to the *history* object, we can now analyse & plot the performance (Classification Accuracy, and Loss) of the updated network epoch by epoch.
+As we again saved our training process to the *history* object, we can now analyze and plot the performance (Classification Accuracy, and Loss) of the updated network epoch by epoch.
 
-The below image shows the same two plots we analysed for the tuned network, the first showing the epoch by epoch **Loss** for both the training set (blue) and the validation set (orange) & the second show the epoch by epoch **Classification Accuracy** again, for both the training set (blue) and the validation set (orange).
+The below image shows the same two plots for this tuned network, the first showing the epoch by epoch **Loss** for both the training set (blue) and the validation set (orange), with the second showing **Classification Accuracy** for the same.
 
 <br>
 ![alt text](/img/posts/cnn-tuned-accuracy-plot.png "CNN Tuned Accuracy Plot")
 
 <br>
-Firstly, we can see a peak Classification Accuracy on the validation set of around **98%** which is the highest we have seen from all networks so far, just higher than the 97% we saw for the addition of Image Augmentation to our baseline network.
+Firstly, we can see a peak Classification Accuracy on the validation set of around **98%** which is the highest we have seen from all the networks so far, just higher than the 97% we saw for the addition of Image Augmentation to our Baseline network.
 
 As Dropout & Image Augmentation are in place here, we again see the elimination of overfitting.
 
 <br>
 #### Performance On The Test Set
 
-During training, we assessed our updated networks performance on both the training set and the validation set.  Here, like we did for the baseline & Dropout networks, we will get a view of how well our network performs when predict on data that was *no part* of the training process whatsoever - our test set.
+During training, we assessed our updated network's performance on both the training set and the validation set. Here, like we did for the Baseline & Dropout networks, we will get a view of how well our network performs when predicting on data that was *no part* of the training process whatsoever - our test set.
 
-We run the exact same code as we did for the earlier networks, with the only change being to ensure we are loading in network file for the updated network
+We run the exact same code as we did for the earlier networks, with the only change being to ensure we are loading in a new network file for the updated network.
 
 <br>
 #### Test Set Classification Accuracy
 
-Our optimised network, with both Dropout & Image Augmentation in place, scored **95%** on the Test Set, again marginally higher than what we had seen from the other networks so far.
+Our optimized network, with both Dropout & Image Augmentation in place, scored **95%** on the Test Set, again marginally higher than what we had seen from the other networks so far.
 
 <br>
 #### Test Set Confusion Matrix
 
-As mentioned each time, while overall Classification Accuracy is very useful, but it can hide what is really going on with the network's predictions!
+As mentioned each time, while overall Classification Accuracy is very useful, it can hide what is really going on with the network's predictions!
 
 Our 95% Test Set accuracy at an *overall* level tells us that we don't have too much to worry about here, but let's take a look anyway and see if anything interesting pops up.
 
@@ -1083,9 +1083,9 @@ orange             0.0      0.0     0.0   0.1    0.0     1.0
 
 ```
 <br>
-Along the top are our *actual* classes and down the side are our *predicted* classes - so counting *down* the columns we can get the Classification Accuracy (%) for each class, and we can see where it is getting confused.
+Along the top are our *actual* classes and down the side are our *predicted* classes - so counting *down* the columns, we can get the Classification Accuracy (%) for each class and we can see where it is getting confused.
 
-So, while overall our test set accuracy was 95% - for each individual class we see:
+So, while overall our test set accuracy was 95%, for each individual class we see:
 
 * Apple: 90%
 * Avocado: 100%
@@ -1094,22 +1094,22 @@ So, while overall our test set accuracy was 95% - for each individual class we s
 * Lemon: 100%
 * Orange: 100%
 
-All classes here are being predicted *at least as accurate or better* when compared to the best network so far - so our optimised architecture does appear to have helped!
+All classes here are being predicted *at least as accurately or better* when compared to the best network so far - so our optimized architecture does appear to have helped!
 
 ___
 <br>
-# Transfer Learning With VGG16 <a name="cnn-transfer-learning"></a>
+# Transfer Learning with VGG16 <a name="cnn-transfer-learning"></a>
 
 <br>
 #### Transfer Learning Overview
 
-Transfer Learning is an extremely powerful way for us to utilise pre-built, and pre-trained networks, and apply these in a clever way to solve *our* specific Deep Learning based tasks.  It consists of taking features learned on one problem, and leveraging them on a new, similar problem!
+Transfer Learning is an extremely powerful way for us to utilize pre-built and pre-trained networks, as well as apply these in a clever way to solve *our* specific Deep Learning-based tasks. It consists of taking features learned on one problem and leveraging them on a new, similar problem!
 
-For image based tasks this often means using all the the *pre-learned* features from a large network, so all of the convolutional filter values and feature maps, and instead of using it to predict what the network was originally designed for, piggybacking it, and training just the last part for some other task.
+For image-based tasks, this often means using all of the *pre-learned* features from a large network (i.e., all of the convolutional filter values and feature maps). Instead of using this to predict what the network was originally designed for, we piggybacking on it, and train just the last part for some other task.
 
-The hope is, that the features which have already been learned will be good enough to differentiate between our new classes, and we’ll save a whole lot of training time (and be able to utilise a network architecture that has potentially already been optimised).
+The hope is that the features which have already been learned will be good enough to differentiate between our new classes and we’ll save a whole lot of training time (and be able to utilize a network architecture that has potentially already been optimized).
 
-For our Fruit Classification task we will be utilising a famous network known as **VGG16**.  This was designed back in 2014, but even by todays standards is a fairly heft network.  It was trained on the famous *ImageNet* dataset, with over a million images across one thousand different image classes. Everything from goldfish to cauliflowers to bottles of wine, to scuba divers!
+For our Fruit Classification task, we will be utilizing a famous network known as **VGG16**. This was designed back in 2014, but even by today's standards, it is still a fairly heft network. It was trained on the famous *ImageNet* dataset, with over a million images across one thousand different image classes - everything from goldfish to cauliflowers to bottles of wine to scuba divers!
 
 <br>
 ![alt text](/img/posts/vgg16-architecture.png "VGG16 Architecture")
@@ -1117,14 +1117,14 @@ For our Fruit Classification task we will be utilising a famous network known as
 <br>
 The VGG16 network won the 2014 ImageNet competition, meaning that it predicted more accurately than any other model on that set of images (although this has now been surpassed).
 
-If we can get our hands on the fully trained VGG16 model object, built to differentiate between all of those one thousand different image classes, the features that are contained in the layer prior to flattening will be very rich, and could be very useful for predicting all sorts of other images too without having to (a) re-train this entire architecture, which would be computationally, very expensive or (b) having to come up with our very own complex architecture, which we know can take a lot of trial and error to get right!
+If we can get our hands on the fully trained VGG16 model object, built to differentiate between all of those one thousand different image classes, the features that are contained in the layer prior to flattening will be very rich and could be very useful for predicting all sorts of other images too without having to (a) re-train this entire architecture, which would be computationally very expensive and/or (b) come up with our very own complex architecture, which we know can take a lot of trial and error to get right!
 
-All the hard work has been done, we just want to "transfer" those "learnings" to our own problem space.
+All the hard work has been done, so we just want to "transfer" those "learnings" to our own problem space.
 
 <br>
 #### Updated Data Pipeline
 
-Our data pipeline will remain *mostly* the same as it was when applying our own custom built networks - but there are some subtle changes.  In the code below we need to import VGG16 and the custom preprocessing logic that it uses.  We also need to send our images in with the size 224 x 224 pixels as this is what VGG16 expects.  Otherwise, the logic stays as is.
+Our data pipeline will remain *mostly* the same as it was when applying our own custom built networks - but there are some subtle changes. In the code below we need to import VGG16 and the custom preprocessing logic that it uses. We also need to send our images in with the size 224 x 224 pixels, as this is what VGG16 expects. Otherwise, the logic stays as is.
 
 ```python
 
@@ -1174,9 +1174,9 @@ validation_set = validation_generator.flow_from_directory(directory = validation
 
 Keras makes the use of VGG16 very easy. We will download the *bottom* of the VGG16 network (everything up to the Dense Layers) and add in what we need to apply the *top* of the model to our fruit classes.
 
-We then need to specify that we *do not* want the imported layers to be re-trained, we want their parameters values to be frozen.
+We then need to specify that we *do not* want the imported layers to be re-trained - we want their parameters values to be frozen.
 
-The original VGG16 network architecture contains two massive Dense Layers near the end, each with 4096 neurons.  Since our task of classiying 6 types of fruit is more simplistic than the original 1000 ImageNet classes, we reduce this down and instead implement two Dense Layers with 128 neurons each, followed by our output layer.
+The original VGG16 network architecture contains two massive Dense Layers near the end, each with 4096 neurons. Since our task of classiying 6 types of fruit is more simplistic than the original 1000 ImageNet classes, we reduce this down and instead implement two Dense Layers with 128 neurons each, followed by our output layer.
 
 ```python
 
@@ -1266,44 +1266,44 @@ _________________________________________________________________
 ```
 
 <br>
-Our VGG16 architecture has a total of 17.9 million parameters, much bigger than what we have built so far.  Of this, 14.7 million parameters are frozen, and 3.2 million parameters will be updated during each iteration of back-propagation, and these are going to be figuring out exactly how to use those frozen parameters that were learned from the ImageNet dataset, to predict our classes of fruit!
+Our VGG16 architecture has a total of 17.9 million parameters, much bigger than what we have built so far. Of this, 14.7 million parameters are frozen while 3.2 million parameters will be updated during each iteration of back-propagation. This trainable set will be figuring out exactly how to use those frozen parameters that were learned from the ImageNet dataset to predict our classes of fruit!
 
 <br>
-#### Training The Network
+#### Training the Network
 
-We run the exact same code to train this updated network as we did for the baseline network, although to start with for only 10 epochs as it is a much more computationally expensive training process.
+We run the exact same code to train this updated network as we did for the Baseline network, although to start with for only 10 epochs, as it is a much more computationally expensive training process.
 
 <br>
-#### Analysis Of Training Results
+#### Analysis of Training Results
 
-As we again saved our training process to the *history* object, we can now analyse & plot the performance (Classification Accuracy, and Loss) of the updated network epoch by epoch.
+As we again saved our training process to the *history* object, we can now analyze and plot the performance (Classification Accuracy and Loss) of the updated network epoch by epoch.
 
-The below image shows the same two plots we analysed for the tuned network, the first showing the epoch by epoch **Loss** for both the training set (blue) and the validation set (orange) & the second show the epoch by epoch **Classification Accuracy** again, for both the training set (blue) and the validation set (orange).
+The below image shows the same two plots we analyzed for the previous networks, the first showing the epoch by epoch **Loss** for both the training set (blue) and the validation set (orange), with the second showing the same for **Classification Accuracy**.
 
 <br>
 ![alt text](/img/posts/cnn-vgg16-accuracy-plot.png "VGG16 Accuracy Plot")
 
 <br>
-Firstly, we can see a peak Classification Accuracy on the validation set of around **98%** which is equal to the highest we have seen from all networks so far, but what is impressive is that it achieved this in only 10 epochs!
+Firstly, we can see a peak Classification Accuracy on the validation set of around **98%** which is equal to the highest we have seen from all previous networks so far, but what is impressive is that it achieved this in only 10 epochs!
 
 <br>
-#### Performance On The Test Set
+#### Performance on the Test Set
 
-During training, we assessed our updated networks performance on both the training set and the validation set.  Here, like we did for all other networks, we will get a view of how well our network performs when predict on data that was *no part* of the training process whatsoever - our test set.
+During training, we assessed our updated network's performance on both the training set and the validation set. Here, like we did for all other networks, we will get a view of how well our network performs when predicting on data that was *no part* of the training process whatsoever - our test set.
 
-We run the exact same code as we did for the earlier networks, with the only change being to ensure we are loading in network file for the updated network
+We run the exact same code as we did for the earlier networks, with the only change being to ensure we are loading in a network file for the updated network.
 
 <br>
 #### Test Set Classification Accuracy
 
-Our VGG16 network scored **98%** on the Test Set, higher than that of our best custom network.
+Our VGG16 network scored **98%** on the Test Set, higher than our best custom network.
 
 <br>
 #### Test Set Confusion Matrix
 
-As mentioned each time, while overall Classification Accuracy is very useful, but it can hide what is really going on with the network's predictions!
+As mentioned each time, while overall Classification Accuracy is very useful, it can hide what is really going on with the network's predictions!
 
-Our 98% Test Set accuracy at an *overall* level tells us that we don't have too much to worry about here, but for comparisons sake let's take a look!
+Our 98% Test Set accuracy at an *overall* level tells us that we don't have too much to worry about here, but for comparison's sake, let's take a look!
 
 Running the same code from the baseline section on results for our updated network, we get the following output:
 
@@ -1320,9 +1320,9 @@ orange             0.0      0.0     0.0   0.0    0.1     1.0
 
 ```
 <br>
-Along the top are our *actual* classes and down the side are our *predicted* classes - so counting *down* the columns we can get the Classification Accuracy (%) for each class, and we can see where it is getting confused.
+Along the top are our *actual* classes and down the side are our *predicted* classes - so counting *down* the columns we can get the Classification Accuracy (%) for each class and we can see where it is getting confused.
 
-So, while overall our test set accuracy was 98% - for each individual class we see:
+So, while overall our test set accuracy was 98%, for each individual class we see:
 
 * Apple: 100%
 * Avocado: 100%
@@ -1331,40 +1331,32 @@ So, while overall our test set accuracy was 98% - for each individual class we s
 * Lemon: 90%
 * Orange: 100%
 
-All classes here are being predicted *at least as accurate or better* when compared to the best custom network!
+All classes here are being predicted *at least as accurately or better* when compared to the best custom network!
 
 ___
 <br>
 # Overall Results Discussion <a name="cnn-results"></a>
 
-We have made some huge strides in terms of making our network's predictions more accurate, and more reliable on new data.
+We have made some huge strides in terms of making our network's predictions more accurate and more reliable on new data.
 
-Our baseline network suffered badly from overfitting - the addition of both Dropout & Image Augmentation elimited this almost entirely.
+Our Baseline network suffered badly from overfitting - the addition of both Dropout & Image Augmentation eliminated this almost entirely.
 
 In terms of Classification Accuracy on the Test Set, we saw:
 
 * Baseline Network: **75%**
 * Baseline + Dropout: **85%**
 * Baseline + Image Augmentation: **93%**
-* Optimised Architecture + Dropout + Image Augmentation: **95%**
+* Optimized Architecture + Dropout + Image Augmentation: **95%**
 * Transfer Learning Using VGG16: **98%**
 
-Tuning the networks architecture with Keras-Tuner gave us a great boost, but was also very time intensive - however if this time investment results in improved accuracy then it is time well spent.
+Tuning the network's architecture with Keras Tuner gave us a great boost, but was also very time intensive - however, if this time investment results in improved accuracy, then it is time well-spent!
 
-The use of Transfer Learning with the VGG16 architecture was also a great success, in only 10 epochs we were able to beat the performance of our smaller, custom networks which were training over 50 epochs.  From a business point of view we also need to consider the overheads of (a) storing the much larger VGG16 network file, and (b) any increased latency on inference.
+The use of Transfer Learning with the VGG16 architecture was also a great success, for in only 10 epochs we were able to beat the performance of our smaller, custom networks, which were training over 50 epochs. From a business point of view, we also need to consider the overheads of (a) storing the much larger VGG16 network file, and (b) any increased latency on inference.
 
 ___
 <br>
 # Growth & Next Steps <a name="growth-next-steps"></a>
 
-The proof of concept was successful, we have shown that we can get very accurate predictions albeit on a small number of classes.  We need to showcase this to the client, discuss what it is that makes the network more robust, and then look to test our best networks on a larger array of classes.
+The proof of concept was successful - we have shown that we can get very accurate predictions, albeit on a small number of classes. We need to showcase this to the client, discuss what it is that makes the network more robust, and then look to test our best networks on a larger array of classes.
 
-
-Transfer Learning has been a big success, and was the best performing network in terms of classification accuracy on the Test Set - however we still only trained for a small number of epochs so we can push this even further.  It would be worthwhile testing other available pre-trained networks such as ResNet, Inception, and the DenseNet networks.
-
-
-
-
-
-
-
+Transfer Learning was a big success - the best-performing network in terms of classification accuracy on the Test Set. However, we still only trained for a small number of epochs, so we can push this even further. It would be worthwhile to test other available pre-trained networks such as ResNet, Inception, and DenseNet networks.
