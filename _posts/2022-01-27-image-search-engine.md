@@ -319,7 +319,7 @@ ___
 <br>
 # Execute Search <a name="execute-search"></a>
 
-With the base-set featurised, we can now run a search on a new image from a customer!
+With the base-set featurized, we can now run a search on a new image from a prospective customer!
 
 <br>
 #### Setup
@@ -350,49 +350,49 @@ The search image we are going to use for illustration here is below:
 ![alt text](/img/posts/search-engine-search1.jpg "VGG16 Architecture")
 
 <br>
-#### Preprocess & Featurise Search Image
+#### Preprocess and Featurize Search Image
 
-Using the same helper functions, we apply the preprocessing & featurising logic to the search image - the output again being a vector containing 512 numeric values.
+Using the same helper functions, we apply the preprocessing and featurizing logic to the search image - the output again being a vector containing 512 numeric values.
 
 ```python
 
-# preprocess & featurise search image
+# preprocess & featurize search image
 preprocessed_image = preprocess_image(search_image)
-search_feature_vector = featurise_image(preprocessed_image)
+search_feature_vector = featurize_image(preprocessed_image)
 
 ```
 
 <br>
 #### Locate Most Similar Images Using Cosine Similarity
 
-At this point, we have our search image existing as a 512 length feature vector, and we need to compare that feature vector to the feature vectors of all our base images.
+At this point, we have our search image existing as a 512 length feature vector and we need to compare that feature vector to the feature vectors of all our base images.
 
 When that is done, we need to understand which of those base image feature vectors are most like the feature vector of our search image, and more specifically, we need to return the eight most closely matched, as that is what we specified above.
 
-To do this, we use the *NearestNeighbors* class from *scikit-learn* and we will apply the *Cosine Distance* metric to calculate the angle of difference between the feature vectors.
+To do this, we use the *NearestNeighbors* class from *scikit-learn* and apply the *Cosine Distance* metric to calculate the angle of difference between the feature vectors.
 
-**Cosine Distance** essentially measures the angle between any two vectors, and it looks to see whether the two vectors are pointing in a similar direction or not.  The more similar the direction the vectors are pointing, the smaller the angle between them in space and the more different the direction the LARGER the angle between them in space. This angle gives us our cosine distance score.
+**Cosine Distance** essentially measures the angle between any two vectors - it looks to see whether the two vectors are pointing in a similar direction or not. The more similar the direction the vectors are pointing, the smaller the angle between them in space and the smaller their cosine distance score - conversely, the more different the direction, the larger the angle between them in space and the larger their cosine distance score.
 
-By calculating this score between our search image vector and each of our base image vectors, we can be returned the images with the eight lowest cosine scores - and these will be our eight most similar images, at least in terms of the feature vector representation that comes from our VGG16 network!
+By calculating this score between our search image vector and each of our base image vectors, we can be returned the images with the eight lowest cosine distance scores - and these will be our eight most similar images, at least in terms of the feature vector representation that comes from our VGG16 network!
 
 In the code below, we:
 
-* Instantiate the Nearest Neighbours logic and specify our metric as Cosine Similarity
-* Apply this to our *feature_vector_store* object (that contains a 512 length feature vector for each of our 300 base-set images)
-* Pass in our *search_feature_vector* object into the fitted Nearest Neighbors object.  This will find the eight nearest base feature vectors, and for each it will return (a) the cosine distance, and (b) the index of that feature vector from our *feature_vector_store* object.
+* Instantiate the *NearestNeighbors* logic and specify our metric as Cosine Similarity
+* Apply this to our *feature_vector_store* object (that contains a 512 number length feature vector for each of our 300 base-set images)
+* Pass in our *search_feature_vector* object into the fitted NearestNeighbors object - this will find the eight nearest base feature vectors and for each it will return (a) the cosine distance and (b) the index of that feature vector from our *feature_vector_store* object
 * Convert the outputs from arrays to lists (for ease when plotting the results)
 * Create a list of filenames for the eight most similar base-set images
 
 ```python
 
-# instantiate nearest neighbours logic
-image_neighbours = NearestNeighbors(n_neighbors = search_results_n, metric = 'cosine')
+# instantiate nearest neighbors logic
+image_neighbors = NearestNeighbors(n_neighbors = search_results_n, metric = 'cosine')
 
 # apply to our feature vector store
-image_neighbours.fit(feature_vector_store)
+image_neighbors.fit(feature_vector_store)
 
 # return search results for search image (distances & indices)
-image_distances, image_indices = image_neighbours.kneighbors(search_feature_vector)
+image_distances, image_indices = image_neighbors.kneighbors(search_feature_vector)
 
 # convert closest image indices & distances to lists
 image_indices = list(image_indices[0])
@@ -408,7 +408,7 @@ search_result_files = [filename_store[i] for i in image_indices]
 
 We now have all of the information about the eight most similar images to our search image - let's see how well it worked by plotting those images!
 
-We plot them in order from most similar to least similar, and include the cosine distance score for reference (smaller is closer, or more similar)
+We plot them in order from most similar to least similar, and include the cosine distance score for reference (smaller is closer or more similar).
 
 ```python
 
@@ -425,7 +425,7 @@ plt.show()
 
 ```
 <br>
-The search image, and search results are below:
+The search image and search results are below:
 
 **Search Image**
 <br>
@@ -436,7 +436,7 @@ The search image, and search results are below:
 ![alt text](/img/posts/search-engine-search1-results.png "Search 1: Search Results")
 
 <br>
-Very impressive results!  From the 300 base-set images, these are the eight that have been deemed to be *most similar*!
+Very impressive results! From the 300 base-set images, these are the eight deemed to be *most similar*!
 
 <br>
 Let's take a look at a second search image...
@@ -456,22 +456,22 @@ ___
 <br>
 # Discussion, Growth & Next Steps <a name="growth-next-steps"></a>
 
-The way we have coded this up is very much for the "proof of concept".  In practice we would definitely have the last section of the code (where we submit a search) isolated, and running from all of the saved objects that we need - we wouldn't include it in a single script like we have here.
+The way we have coded this up is very much for the "proof of concept". In practice, we would definitely have the last section of the code (where we submit a search) isolated, and running from all of the saved objects that we need - we wouldn't include it in a single script like we have here.
 
 Also, rather than having to fit the Nearest Neighbours to our *feature_vector_store* each time a search is submitted, we could store that object as well.
 
-When applying this in production, we also may want to code up a script that easily adds or removes images from the feature store.  The products that are available in the clients store would be changing all the time, so we'd want a nice easy way to add new feature vectors to the feature_vector_store object - and also potentially a way to remove search results coming back if that product was out of stock, or no longer part of the suite of products that were sold.
+When applying this in production, we also may want to code up a script that easily adds or removes images from the feature store. The products that are available in the client's store would be changing all the time, so we'd want a nice easy way to add new feature vectors to the feature_vector_store object - and also potentially a way to remove search results coming back if that product is out of stock or no longer part of the suite of products being sold.
 
 Most likely, in production, this would just return a list of filepaths that the client's website could then pull forward as required - the matplotlib code is just for us to see it in action manually!
 
-This was tested only in one category, we would want to test on a broader array of categories - most likely having a saved network for each to avoid irrelevant predictions.
+As this was tested only in one category, we would want to test on a broader array of categories - most likely having a saved network for each to avoid irrelevant predictions.
 
-We only looked at Cosine Similarity here, it would be interesting to investigate other distance metrics.
+We only looked at Cosine Similarity here - it would be interesting to investigate other distance metrics.
 
-It would be beneficial to come up with a way to quantify the quality of the search results.  This could come from customer feedback, or from click-through rates on the site.
+It would be beneficial to come up with a way to quantify the quality of the search results. This could come from customer feedback or from click-through rates on the site.
 
+Finally, here we utilized VGG16 - it would be worthwhile to test other available pre-trained networks, such as ResNet, Inception, and DenseNet networks, to see how they perform.
 
-Here we utilised VGG16. It would be worthwhile testing other available pre-trained networks such as ResNet, Inception, and the DenseNet networks.
 
 
 
