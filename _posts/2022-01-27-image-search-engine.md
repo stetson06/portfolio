@@ -454,7 +454,7 @@ Again, these have come out really well - the features from VGG16 combined with C
 
 ___
 <br>
-# Discussion, Growth & Next Steps <a name="growth-next-steps"></a>
+# Discussion, Growth, and Next Steps <a name="growth-next-steps"></a>
 
 The way we have coded this up is very much for the "proof of concept". In practice, we would definitely have the last section of the code (where we submit a search) isolated, and running from all of the saved objects that we need - we wouldn't include it in a single script like we have here.
 
@@ -471,6 +471,7 @@ We only looked at Cosine Similarity here - it would be interesting to investigat
 It would be beneficial to come up with a way to quantify the quality of the search results. This could come from customer feedback or from click-through rates on the site.
 
 Finally, here we utilized VGG16 - it would be worthwhile to test other available pre-trained networks, such as ResNet, Inception, and DenseNet networks, to see how they perform.
+
 
 
 
