@@ -5,9 +5,9 @@ image: "/posts/dl-search-engine-title-img.png"
 tags: [Deep Learning, CNN, Data Science, Computer Vision, Python]
 ---
 
-In this project, we build a Deep Learning based Image Search Engine that will help customers find similar products to ones they want!
+In this project, we build a Deep Learning-based Image Search Engine that will help customers find products that they want!
 
-# Table of contents
+# Table of Contents
 
 - [00. Project Overview](#overview-main)
     - [Context](#overview-context)
@@ -17,7 +17,7 @@ In this project, we build a Deep Learning based Image Search Engine that will he
 - [01. Sample Data Overview](#sample-data-overview)
 - [02. Transfer Learning Overview](#transfer-learning-overview)
 - [03. Setting Up VGG16](#vgg16-setup)
-- [04. Image Preprocessing & Featurisation](#image-preprocessing)
+- [04. Image Preprocessing & Featurization](#image-preprocessing)
 - [05. Execute Search](#execute-search)
 - [06. Discussion, Growth & Next Steps](#growth-next-steps)
 
@@ -27,51 +27,51 @@ ___
 
 ### Context <a name="overview-context"></a>
 
-Our client had been analysing their customer feedback, and one thing in particular came up a number of times.
+Our client had been analyzing their customer feedback and one thing in particular came up a number of times.
 
-Their customers are aware that they have a great range of competitively priced products in the clothing section - but have said they are struggling to find the products they are looking for on the website.
+Their customers are aware that they have a great range of competitively-priced products in the clothing section - but have said they are struggling to find the products they are looking for on the website.
 
-They are often buying much more expensive products, and then later finding out that we actually stocked a very similar, but lower-priced alternative.
+They are often buying much more expensive products and then later finding out that we actually stock a very similar but lower-priced alternative.
 
 Based upon our work for them using a Convolutional Neural Network, they want to know if we can build out something that could be applied here.
 <br>
 <br>
 ### Actions <a name="overview-actions"></a>
 
-Here we implement the pre-trained VGG16 network. Instead of the final MaxPooling layer, we we add in a **Global Average Pooling Layer** at the end of the VGG16 architecture meaning the output of the network will be a single vector of numeric information rather than many arrays.  We use "feature vector" to compare image similarity.
+Here we implement the pre-trained VGG16 network. Instead of the final MaxPooling layer, we add in a **Global Average Pooling Layer** at the end of the VGG16 architecture that programs the output of the network to be a single vector of numeric information rather than many arrays. We use this "feature vector" design to determine image similarity.
 
-We pre-process our 300 base-set images, and then pass them through the VGG16 network to extract their feature vectors.  We store these in an object for use when a search image is fed in.
+We pre-process our 300 base-set images and then pass them through the VGG16 network to extract their feature vectors. We store these in an object for use when a search image is fed in by a shopper.
 
-We pass in a search image, apply the same preprocessing steps and again extract the feature vector.
+We pass in this search image, apply the same preprocessing steps, and again extract the feature vector for the photo (this time, provided by the potential customer!).
 
-We use Cosine Similarity to compare the search feature vector with all base-set feature vectors, returned the N smallest values.  These represent our "most similar" images - the ones that would be returned to the customer.
+We use Cosine Similarity to compare the search image feature vector with all base-set feature vectors, returning the N smallest values. These represent our "most similar" images - the ones that would be returned to our browsing shopping.
 
 <br>
 <br>
 
 ### Results <a name="overview-results"></a>
 
-We test two different images, and plot the search results along with the cosine similarity scores.  You can see these in the dedicated section below.
+We test two different images and plot the search results along with the cosine similarity scores. You can see these in the dedicated section below.
 
 <br>
 <br>
-### Discussion, Growth & Next Steps <a name="overview-growth"></a>
+### Discussion, Growth, and Next Steps <a name="overview-growth"></a>
 
-The way we have coded this up is very much for the "proof of concept".  In practice we would definitely have the last section of the code (where we submit a search) isolated, and running from all of the saved objects that we need - we wouldn't include it in a single script like we have here.
+The way we have coded this up is very much for the "proof of concept". In practice, we would definitely have the last section of the code (where we submit a search) isolated, and running from all of the saved objects that we need, we wouldn't include it in a single script like we have here.
 
 Also, rather than having to fit the Nearest Neighbours to our *feature_vector_store* each time a search is submitted, we could store that object as well.
 
-When applying this in production, we also may want to code up a script that easily adds or removes images from the feature store.  The products that are available in the clients store would be changing all the time, so we'd want a nice easy way to add new feature vectors to the feature_vector_store object - and also potentially a way to remove search results coming back if that product was out of stock, or no longer part of the suite of products that were sold.
+When applying this in production, we also may want to code up a script that easily adds or removes images from the feature store. The products that are available in the client's store would be changing all the time, so we'd want a nice easy way to add new feature vectors to the feature_vector_store object - and also potentially a way to remove search results coming back if that product becomes out of stock, or no longer part of the suite of products sold.
 
 Most likely, in production, this would just return a list of filepaths that the client's website could then pull forward as required - the matplotlib code is just for us to see it in action manually!
 
-This was tested only in one category, we would want to test on a broader array of categories - most likely having a saved network for each to avoid irrelevant predictions.
+This was tested only in one category - so we would want to test on a broader array of categories, most likely having a saved network for each to avoid irrelevant predictions.
 
-We only looked at Cosine Similarity here, it would be interesting to investigate other distance metrics.
+We only looked at Cosine Similarity here - it would be interesting to investigate other distance metrics techniques.
 
-It would be beneficial to come up with a way to quantify the quality of the search results.  This could come from customer feedback, or from click-through rates on the site.
+It would also be beneficial to come up with a way to quantify the quality of the search results. This could come from customer feedback or from click-through rates on the site.
 
-Here we utilised VGG16. It would be worthwhile testing other available pre-trained networks such as ResNet, Inception, and the DenseNet networks.
+Here we utilized VGG16 - it would be worthwhile testing other available pre-trained networks such as ResNet, Inception, and DenseNet networks.
 
 <br>
 <br>
@@ -80,15 +80,15 @@ ___
 
 # Sample Data Overview  <a name="sample-data-overview"></a>
 
-For our proof on concept we are working in only one section of the client's product base, women's shoes.
+For our proof of concept, we are working in only one section of the client's product base - women's shoes.
 
-We have been provided with images of the 300 shoes that are currently available to purchase.  A random selection of 18 of these can be seen in the image below.
+We have been provided with images of the 300 shoes that are currently available to purchase. A random selection of 18 of these can be seen in the image below.
 
 <br>
 ![alt text](/img/posts/search-engine-image-examples.png "Deep Learning Search Engine - Image Examples")
 
 <br>
-We will need to extract & capture the "features" of this base image set, and compare them to the "features" found in any given search image.  The images with the closest match will be returned to the customer!
+We will need to extract and capture the "features" of this base image set and compare them to the "features" found in any given search image. The images with the closest match will be returned to the customer!
 
 ___
 <br>
@@ -98,13 +98,13 @@ ___
 <br>
 #### Overview
 
-Transfer Learning is an extremely powerful way for us to utilise pre-built, and pre-trained networks, and apply these in a clever way to solve *our* specific Deep Learning based tasks.  It consists of taking features learned on one problem, and leveraging them on a new, similar problem!
+Transfer Learning is an extremely powerful way for us to utilize pre-built and pre-trained networks, and apply these in a clever way to solve *our* specific Deep Learning-based tasks. It consists of taking features learned on one problem and leveraging them on a new, similar problem!
 
-For image based tasks this often means using all the the *pre-learned* features from a large network, so all of the convolutional filter values and feature maps, and instead of using it to predict what the network was originally designed for, piggybacking it, and training just the last part for some other task.
+For image-based tasks, this often means using all of the *pre-learned* features from a large network (i.e., all of the convolutional filter values and feature maps) and instead of using it to predict what the network was originally designed for, piggybacking on it instead and training just the last part for some other task.
 
-The hope is, that the features which have already been learned will be good enough to differentiate between our new classes, and we’ll save a whole lot of training time (and be able to utilise a network architecture that has potentially already been optimised).
+The hope is that the features which have already been learned will be good enough to differentiate between our new classes - we’ll thus save a whole lot of training time (and be able to utilize a network architecture that has potentially already been optimized).
 
-For our Fruit Classification task we will be utilising a famous network known as **VGG16**.  This was designed back in 2014, but even by todays standards is a fairly heft network.  It was trained on the famous *ImageNet* dataset, with over a million images across one thousand different image classes. Everything from goldfish to cauliflowers to bottles of wine, to scuba divers!
+For our Shoe Classification task, we will be utilizing a famous network known as **VGG16**. This was designed back in 2014, but even by today's standards is still a fairly heft network. It was trained on the famous *ImageNet* dataset, with over a million images across one thousand different image classes - everything from goldfish to cauliflowers to bottles of wine to scuba divers!
 
 <br>
 ![alt text](/img/posts/vgg16-architecture.png "VGG16 Architecture")
@@ -112,14 +112,14 @@ For our Fruit Classification task we will be utilising a famous network known as
 <br>
 The VGG16 network won the 2014 ImageNet competition, meaning that it predicted more accurately than any other model on that set of images (although this has now been surpassed).
 
-If we can get our hands on the fully trained VGG16 model object, built to differentiate between all of those one thousand different image classes, the features that are contained in the layer prior to flattening will be very rich, and could be very useful for predicting all sorts of other images too without having to (a) re-train this entire architecture, which would be computationally, very expensive or (b) having to come up with our very own complex architecture, which we know can take a lot of trial and error to get right!
+If we can get our hands on the fully trained VGG16 model object, built to differentiate between all of those one thousand different image classes, the features that are contained in the layer prior to flattening will be very rich, and could be very useful for predicting all sorts of other images too without having to (a) re-train this entire architecture, which would be computationally, very expensive and/or (b) come up with our very own complex architecture, which we know can take a lot of trial and error to get right!
 
 All the hard work has been done, we just want to "transfer" those "learnings" to our own problem space.
 
 <br>
 #### Nuanced Application
 
-When using Transfer Learning for image classification tasks, we often import the architecture up to final Max Pooling layer, prior to flattening & the Dense Layers & Output Layer.  We use the frozen parameter values from the bottom of the network, and then get instead of the final Max Pooling layer
+When using Transfer Learning for image classification tasks, we often import the architecture up to final Max Pooling layer, prior to flattening and the Dense Layer(s) and Output Layer. We use the frozen parameter values from the bottom of the network, and then get instead of the final Max Pooling layer.
 
 With this approach, the final MaxPooling layer will be in the form of a number of pooled feature maps.  For our task here however, we don't want that. We instead want a *single set* of numbers to represent these features and thus we add in a **Global Average Pooling Layer** at the end of the VGG16 architecture meaning the output of the network will be a single array of numeric information rather than many arrays.
 
@@ -222,7 +222,7 @@ If we hadn't added that last parameter of "pooling = avg" then the final layer w
 
 ___
 <br>
-# Image Preprocessing & Featurisation <a name="image-preprocessing"></a>
+# Image Preprocessing & Featurization <a name="image-preprocessing"></a>
 
 <br>
 #### Helper Functions
@@ -472,5 +472,6 @@ It would be beneficial to come up with a way to quantify the quality of the sear
 
 
 Here we utilised VGG16. It would be worthwhile testing other available pre-trained networks such as ResNet, Inception, and the DenseNet networks.
+
 
 
