@@ -19,7 +19,7 @@ In this project, we build a Deep Learning-based Image Search Engine that will he
 - [03. Setting Up VGG16](#vgg16-setup)
 - [04. Image Preprocessing & Featurization](#image-preprocessing)
 - [05. Execute Search](#execute-search)
-- [06. Discussion, Growth & Next Steps](#growth-next-steps)
+- [06. Discussion, Growth, and Next Steps](#growth-next-steps)
 
 ___
 
@@ -471,6 +471,7 @@ We only looked at Cosine Similarity here - it would be interesting to investigat
 It would be beneficial to come up with a way to quantify the quality of the search results. This could come from customer feedback or from click-through rates on the site.
 
 Finally, here we utilized VGG16 - it would be worthwhile to test other available pre-trained networks, such as ResNet, Inception, and DenseNet networks, to see how they perform.
+
 
 
 
